@@ -1,3 +1,6 @@
-interface someType {}
+interface User {
+  username: string
+  age: number | string
+}
 
-export type {someType}
+export type {User}
