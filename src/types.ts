@@ -1,5 +1,3 @@
-interface someType {
-
-}
+interface someType {}
 
 export type {someType}
