@@ -1,7 +1,14 @@
 import React from "react"
 
-function App() {
-  return <div />
+import AddUser from "./components/Users/AddUser"
+interface Props {}
+
+const App: React.FC<Props> = ({}) => {
+  return (
+    <div>
+      <AddUser />
+    </div>
+  )
 }
 
 export default App
