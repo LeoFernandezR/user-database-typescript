@@ -6,17 +6,29 @@ import Card from "../UI/Card"
 
 import classes from "./AddUser.module.css"
 
-interface Props {}
+interface Props {
+  addNewUser: (newUser: User) => void
+}
 
-const AddUser: React.FC<Props> = ({}) => {
+const AddUser: React.FC<Props> = ({addNewUser}) => {
   const [enteredUsername, setEnteredUsername] = useState<User["username"]>("")
-  const [enteredAge, setEnteredAge] = useState<User["age"]>("")
+  const [enteredAge, setEnteredAge] = useState<User["age"]>(0)
 
   const addUserHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    if (enteredUsername.trim().length === 0 || enteredAge < 1) {
+      return
+    }
+
+    addNewUser({
+      username: enteredUsername,
+      age: enteredAge,
+      id: Math.random().toString(),
+    })
+
     setEnteredUsername("")
-    setEnteredAge("")
+    setEnteredAge(0)
   }
 
   const usernameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +36,7 @@ const AddUser: React.FC<Props> = ({}) => {
   }
 
   const ageChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEnteredAge(e.target.value)
+    setEnteredAge(parseInt(e.target.value))
   }
 
   return (
