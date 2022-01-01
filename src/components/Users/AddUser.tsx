@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 
-import {User} from "../../types"
+import {ErrorData, User} from "../../types"
 import Button from "../UI/Button"
 import Card from "../UI/Card"
 
@@ -8,17 +8,28 @@ import classes from "./AddUser.module.css"
 
 interface Props {
   addNewUser: (newUser: User) => void
+  showErrorModal: (errorData: ErrorData) => void
 }
 
-const AddUser: React.FC<Props> = ({addNewUser}) => {
+const AddUser: React.FC<Props> = ({addNewUser, showErrorModal}) => {
   const [enteredUsername, setEnteredUsername] = useState<User["username"]>("")
   const [enteredAge, setEnteredAge] = useState<User["age"]>(0)
 
   const addUserHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (enteredUsername.trim().length === 0 || enteredAge < 1) {
-      return
+    if (enteredUsername.trim().length === 0) {
+      return showErrorModal({
+        title: "Invalid Input",
+        message: "Please enter a valid name(non-empty values)",
+      })
+    }
+
+    if (enteredAge < 1) {
+      return showErrorModal({
+        title: "Invalid Input",
+        message: "Please enter a valid age(> 0)",
+      })
     }
 
     addNewUser({
@@ -36,7 +47,9 @@ const AddUser: React.FC<Props> = ({addNewUser}) => {
   }
 
   const ageChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEnteredAge(parseInt(e.target.value))
+    const age = parseInt(e.target.value) || 0
+
+    setEnteredAge(age)
   }
 
   return (
