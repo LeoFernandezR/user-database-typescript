@@ -4,4 +4,9 @@ interface User {
   age: number
 }
 
-export type {User}
+interface ErrorData {
+  title: string
+  message: string
+}
+
+export type {User, ErrorData}
